@@ -24,6 +24,7 @@ app.get('/comments', async (req, res) => {
 
 
 
+
 app.listen(PORT, () => {
   console.log(`LikeyPix API is running on port ${PORT}`);
 });
