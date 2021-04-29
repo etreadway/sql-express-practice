@@ -8,6 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 //CRUD Endpoints
+
 //create
 app.post('/foods', async (req, res) => {
   const ndb_no = req.body.ndb_no;
@@ -31,6 +32,16 @@ app.post('/foods', async (req, res) => {
     ]);
   res.send('Food Description Created!');
 })
+
+//READ
+app.get('/foods', async (req, res) => {
+  const ndb_no = req.body.ndb_no;
+  const description = await db.one("SELECT * FROM food_des WHERE ndb_no = $1", [ndb_no])
+    .then((description) => {
+      return description;
+    });
+  res.send(description);
+});
 
 app.listen(PORT, () => {
   console.log(`LikeyPix API is running on port ${PORT}`);
