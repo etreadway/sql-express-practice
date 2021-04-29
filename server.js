@@ -67,6 +67,15 @@ app.put('/foods', async (req, res) => {
   res.send('Food Description Updated!');
 });
 
+//delete
+app.delete('/foods', async (req, res) => {
+  const ndb_no = req.body.ndb_no;
+
+  await db.none('DELETE FROM food_des WHERE ndb_no = $1', [ndb_no]);
+  res.send('Food Description Deleted!');
+});
+
+
 
 
 app.listen(PORT, () => {
