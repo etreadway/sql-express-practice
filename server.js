@@ -53,6 +53,16 @@ app.get('/teachers', async (req, res) => {
   res.send(teachers);
 });
 
+//get class by id
+app.get('/classes/:id', async (req, res) => {
+  const id = req.params.id;
+  const theClass = await db.one('SELECT * FROM classes where id = $1', [id])
+    .then((theClass) => {
+      return theClass;
+    });
+    res.send(theClass);
+});
+
 
 
 
