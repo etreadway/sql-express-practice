@@ -15,6 +15,19 @@ app.get('/classes', async (req, res) => {
   res.send(classes);
 });
 
+//get all classes by teacher id
+app.get('/teachers/classes/:id', async (req, res) => {
+  const teacherID = req.params.id
+  const theClass = await db.any('SELECT * FROM classes ' 
+                                + 'JOIN class_teacher ON classes.id = class_teacher.class_id ' 
+                                + 'WHERE class_teacher.teacher_id = $1;', [teacherID])
+                                .then((theClass) => {
+                                  return theClass
+                                });
+  res.send(theClass);
+});
+
+
 //get all students
 app.get('/students', async (req, res) => {
   const students = await db.any('SELECT * FROM students').then((students) => {
@@ -24,7 +37,7 @@ app.get('/students', async (req, res) => {
 });
 
 //get student by class id
-app.get('/students/:id', async (req, res) => {
+app.get('/students/classes/:id', async (req, res) => {
   const id = req.params.id;
   const students = await db.any('SELECT * FROM students WHERE class_id = $1', [id]).then((students) => {
     return students;
@@ -40,6 +53,11 @@ app.get('/teachers', async (req, res) => {
   res.send(teachers);
 });
 
+
+
+
+
+
 app.listen(PORT, () => {
-  console.log(`LikeyPix API is running on port ${PORT}`);
+  console.log(`Classroom API is running on port ${PORT}`);
 });
