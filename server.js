@@ -86,7 +86,7 @@ app.get('/groups', async (req, res) => {
 
 app.get('/groups/:id', async (req, res) => {
   const id = req.params.id;
-  const group = await db.any('SELECT * FROM fd_group WHERE fdgrp_cd = $1', [id]).then((group) => {
+  const group = await db.any('SELECT * FROM fd_group JOIN food_des ON food_des.fdgrp_cd = fd_group.fdgrp_cd WHERE fd_group.fdgrp_cd = $1', [id]).then((group) => {
     return group
   });
 
