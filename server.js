@@ -75,7 +75,23 @@ app.delete('/foods', async (req, res) => {
   res.send('Food Description Deleted!');
 });
 
+//fetch all from food group
+app.get('/groups', async (req, res) => {
+  const allGroups = await db.any('SELECT * FROM fd_group').then((allGroups) => {
+    return allGroups;
+  });
+  
+  res.send(allGroups);
+});
 
+app.get('/groups/:id', async (req, res) => {
+  const id = req.params.id;
+  const group = await db.any('SELECT * FROM fd_group WHERE fdgrp_cd = $1', [id]).then((group) => {
+    return group
+  });
+
+  res.send(group);
+});
 
 
 app.listen(PORT, () => {
